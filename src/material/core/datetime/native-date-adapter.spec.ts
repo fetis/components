@@ -2,7 +2,9 @@ import {Platform} from '@angular/cdk/platform';
 import {LOCALE_ID} from '@angular/core';
 import {waitForAsync, inject, TestBed} from '@angular/core/testing';
 import {DEC, FEB, JAN, MAR} from '@angular/material/testing';
+import da from '@angular/common/locales/da';
 import {DateAdapter, MAT_DATE_LOCALE, NativeDateAdapter, NativeDateModule} from './index';
+import {registerLocaleData} from '@angular/common';
 
 const SUPPORTS_INTL = typeof Intl != 'undefined';
 
@@ -419,6 +421,8 @@ describe('NativeDateAdapter', () => {
 describe('NativeDateAdapter with MAT_DATE_LOCALE override', () => {
   let adapter: NativeDateAdapter;
 
+  registerLocaleData(da, 'da-DK');
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [NativeDateModule],
@@ -437,6 +441,10 @@ describe('NativeDateAdapter with MAT_DATE_LOCALE override', () => {
 
     expect(adapter.getDayOfWeekNames('long')).toEqual(expectedValue);
   });
+
+    it('should get first day of week from locale', () => {
+      expect(adapter.getFirstDayOfWeek()).toBe(1);
+    });
 
 });
 
